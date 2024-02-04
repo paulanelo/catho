@@ -6,6 +6,7 @@
         "esModuleInterop": true,
         "declaration": true,
         "declarationMap": true,
-        "target": "ES6"
+        "target": "ES6",
+        "strictNullChecks": true
     }
 }

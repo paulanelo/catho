@@ -1,10 +1,16 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --no-cache --watch"
   },
   "keywords": [],
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12"
+  }
 }

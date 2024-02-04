@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "baseUrl": "./",
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "declarationMap": true,
+        "target": "ES6"
+    }
+}

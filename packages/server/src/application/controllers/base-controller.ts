@@ -1,6 +1,6 @@
 import { type Controller } from '../../domain/ports/inbound/controller'
 import { type HttpRequest, type HttpResponse } from '../../domain/ports/inbound/http'
-import { badRequest, serverError } from '../../helpers/http.helper'
+import { badRequest, ok, serverError } from '../../helpers/http.helper'
 import { MissingParamError } from '../errors'
 
 export abstract class BaseController implements Controller {
@@ -12,10 +12,7 @@ export abstract class BaseController implements Controller {
     try {
       this.validate(httpRequest.body)
       const response = await this.execute(httpRequest.body)
-      return {
-        data: response,
-        code: 200
-      }
+      return ok(response)
     } catch (error) {
       if (error instanceof MissingParamError) {
         return badRequest(error)

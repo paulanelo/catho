@@ -1,6 +1,6 @@
 import { type ValidatorPort } from '../../src/domain/ports/inbound/validator'
 import { AddCandidateController } from '../../src/application/controllers/add-candidate'
-import { badRequest, serverError } from '../../src/helpers/http.helper'
+import { badRequest, ok, serverError } from '../../src/helpers/http.helper'
 import { MissingParamError } from '../../src/application/errors'
 import { type AddCandidate, type AddCandidateModel } from '../../src/domain/use-cases/add-candidate'
 import { type Candidate } from '../../src/domain/entities'
@@ -104,5 +104,21 @@ describe('AddCandidate', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 200 if request data are correct', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        skills: []
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(ok({
+      id: 'any_id',
+      name: 'any_name',
+      skills: []
+    }))
   })
 })

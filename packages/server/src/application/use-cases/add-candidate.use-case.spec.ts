@@ -8,7 +8,7 @@ const makeAddCandidateRepository = (): AddCandidateRepository => {
     async add (candidate: AddCandidateModel): Promise<Candidate> {
       return await new Promise((resolve) => {
         resolve({
-          id: 'any_id',
+          id: 'valid_id',
           name: 'any_name',
           skills: []
         })
@@ -53,5 +53,18 @@ describe('Add Candidate Use case', () => {
     }
     const promise = sut.add(data)
     await expect(promise).rejects.toThrow()
+  })
+
+  test('should return a candidate if all data is provided', async () => {
+    const { sut } = makeSut()
+    const data = {
+      name: 'any_name',
+      skills: []
+    }
+    const candidate = await sut.add(data)
+    expect(candidate).toEqual({
+      id: 'valid_id',
+      ...data
+    })
   })
 })

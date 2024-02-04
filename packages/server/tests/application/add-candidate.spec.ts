@@ -12,10 +12,23 @@ const makeValidator = (): ValidatorPort => {
   return new ValidationStub()
 }
 
+interface SutTypes {
+  sut: AddCandidate
+  validatorStub: ValidatorPort
+}
+
+const makeSut = (): SutTypes => {
+  const validatorStub = makeValidator()
+  const sut = new AddCandidate(validatorStub)
+  return {
+    sut,
+    validatorStub
+  }
+}
+
 describe('AddCandidate', () => {
   test("should return 400 if candidate's is not provided", async () => {
-    const validatorStub = makeValidator()
-    const sut = new AddCandidate(validatorStub)
+    const { sut, validatorStub } = makeSut()
     jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(new MissingParamError('name_field'))
     const httpRequest = {
       body: {

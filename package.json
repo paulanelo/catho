@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "test": "npm run -w server test",
+    "test:verbose": "npm run -w server test:verbose",
     "prepare": "husky"
   },
   "keywords": [],

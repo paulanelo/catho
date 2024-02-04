@@ -1,6 +1,6 @@
 import { type ValidatorPort } from '../../src/domain/ports/inbound/validator'
 import { AddCandidateController } from '../../src/application/controllers/add-candidate'
-import { badRequest } from '../../src/helpers/http.helper'
+import { badRequest, serverError } from '../../src/helpers/http.helper'
 import { MissingParamError } from '../../src/application/errors'
 import { type AddCandidate, type AddCandidateModel } from '../../src/domain/use-cases/add-candidate'
 import { type Candidate } from '../../src/domain/entities'
@@ -87,5 +87,22 @@ describe('AddCandidate', () => {
     }
     await sut.handle(httpRequest)
     expect(addCandidateSpy).toHaveBeenCalledWith(httpRequest.body)
+  })
+
+  test('should throw if add candidate use case throws', async () => {
+    const { sut, addCandidateStub } = makeSut()
+    jest.spyOn(addCandidateStub, 'add').mockImplementationOnce(async () => {
+      return await new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        skills: []
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })

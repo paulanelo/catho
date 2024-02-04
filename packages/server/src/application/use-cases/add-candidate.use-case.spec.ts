@@ -43,4 +43,15 @@ describe('Add Candidate Use case', () => {
     await sut.add(data)
     expect(addSpy).toHaveBeenCalledWith(data)
   })
+
+  test('should throw if add candidate repository throws', async () => {
+    const { sut, addCandidateRepositoryStub } = makeSut()
+    jest.spyOn(addCandidateRepositoryStub, 'add').mockImplementationOnce(async () => await new Promise((resolve, reject) => { reject(new Error()) }))
+    const data = {
+      name: 'any_name',
+      skills: []
+    }
+    const promise = sut.add(data)
+    await expect(promise).rejects.toThrow()
+  })
 })

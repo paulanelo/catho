@@ -9,10 +9,14 @@ export abstract class BaseController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       this.validate(httpRequest)
-      const response = this.execute(httpRequest)
-      return response as HttpResponse
+      const response = await this.execute(httpRequest)
+      return {
+        data: response,
+        code: 200
+      }
     } catch (error) {
       console.error(error)
+      throw (error)
     }
   }
 }

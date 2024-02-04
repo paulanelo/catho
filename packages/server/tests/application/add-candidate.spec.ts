@@ -27,6 +27,10 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddCandidate', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   test("should return 400 if candidate's is not provided", async () => {
     const { sut, validatorStub } = makeSut()
     jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(new MissingParamError('name_field'))
@@ -37,5 +41,18 @@ describe('AddCandidate', () => {
     }
     const response = await sut.handle(httpRequest)
     expect(response).toEqual(badRequest(new MissingParamError('name_field')))
+  })
+
+  test('should call validator with the right input', async () => {
+    const { sut, validatorStub } = makeSut()
+    const validateSpy = jest.spyOn(validatorStub, 'validate')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        skills: []
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 })

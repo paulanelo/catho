@@ -1,9 +1,9 @@
-import { type ValidatorPort } from '../../src/domain/ports/inbound/validator'
-import { AddCandidateController } from '../../src/application/controllers/add-candidate'
-import { badRequest, ok, serverError } from '../../src/helpers/http.helper'
-import { MissingParamError } from '../../src/application/errors'
-import { type AddCandidate, type AddCandidateModel } from '../../src/domain/use-cases/add-candidate'
-import { type Candidate } from '../../src/domain/entities'
+import { type ValidatorPort } from '../../domain/ports/inbound/validator'
+import { AddCandidateController } from './add-candidate'
+import { badRequest, ok, serverError } from '../../helpers/http.helper'
+import { MissingParamError } from '../errors'
+import { type AddCandidate, type AddCandidateModel } from '../../domain/use-cases/add-candidate'
+import { type Candidate } from '../../domain/entities'
 
 const makeValidator = (): ValidatorPort => {
   class ValidationStub implements ValidatorPort {

@@ -1,3 +1,3 @@
 export interface ValidatorPort {
-  validate: (input: Record<string, unknown>) => Error | undefined
+  validate: (input: unknown) => Error | undefined
 }

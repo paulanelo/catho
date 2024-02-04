@@ -6,7 +6,7 @@ export class RequiredFieldValidator implements ValidatorPort {
     private readonly fieldName: string
   ) {}
 
-  validate (input: Record<string, unknown>): Error | undefined {
+  validate (input: unknown): Error {
     if (!input[this.fieldName]) return new MissingParamError(this.fieldName)
   }
 }

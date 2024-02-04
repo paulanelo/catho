@@ -1,5 +1,7 @@
 import { type Controller } from '../../domain/ports/inbound/controller'
 import { type HttpRequest, type HttpResponse } from '../../domain/ports/inbound/http'
+import { badRequest } from '../../helpers/http.helper'
+import { MissingParamError } from '../errors'
 
 export abstract class BaseController implements Controller {
   protected abstract execute (input: HttpRequest): unknown | Promise<unknown>
@@ -15,7 +17,9 @@ export abstract class BaseController implements Controller {
         code: 200
       }
     } catch (error) {
-      console.error(error)
+      if (error instanceof MissingParamError) {
+        return badRequest(error)
+      }
       throw (error)
     }
   }

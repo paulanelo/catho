@@ -4,14 +4,14 @@ import { badRequest } from '../../helpers/http.helper'
 import { MissingParamError } from '../errors'
 
 export abstract class BaseController implements Controller {
-  protected abstract execute (input: HttpRequest): unknown | Promise<unknown>
+  protected abstract execute (input: unknown): unknown | Promise<unknown>
 
-  protected abstract validate (input: HttpRequest): void
+  protected abstract validate (input: unknown): void
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      this.validate(httpRequest)
-      const response = await this.execute(httpRequest)
+      this.validate(httpRequest.body)
+      const response = await this.execute(httpRequest.body)
       return {
         data: response,
         code: 200

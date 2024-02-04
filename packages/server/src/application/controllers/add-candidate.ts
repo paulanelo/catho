@@ -1,4 +1,3 @@
-import { type HttpRequest } from '../../domain/ports/inbound/http'
 import { type ValidatorPort } from '../../domain/ports/inbound/validator'
 import { type AddCandidateModel, type AddCandidate } from '../../domain/use-cases/add-candidate'
 import { BaseController } from './base-controller'
@@ -11,13 +10,13 @@ export class AddCandidateController extends BaseController {
     super()
   }
 
-  protected validate (input: HttpRequest): void {
-    const error = this.requiredFieldValidator.validate(input.body)
+  protected validate (input: unknown): void {
+    const error = this.requiredFieldValidator.validate(input)
     if (error) throw error
   }
 
-  async execute (input: HttpRequest): Promise<unknown> {
-    const candidate = await this.addCandidate.add(input.body as AddCandidateModel)
+  async execute (input: AddCandidateModel): Promise<unknown> {
+    const candidate = await this.addCandidate.add(input)
     return candidate
   }
 }

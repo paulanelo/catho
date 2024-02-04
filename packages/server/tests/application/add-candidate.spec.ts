@@ -19,7 +19,7 @@ describe('AddCandidate', () => {
     jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(new MissingParamError('name_field'))
     const httpRequest = {
       body: {
-        skils: []
+        skills: []
       }
     }
     const response = await sut.handle(httpRequest)

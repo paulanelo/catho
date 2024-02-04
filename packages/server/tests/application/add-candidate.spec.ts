@@ -36,6 +36,6 @@ describe('AddCandidate', () => {
       }
     }
     const response = await sut.handle(httpRequest)
-    expect(response).toEqual(badRequest(new MissingParamError('any_field')))
+    expect(response).toEqual(badRequest(new MissingParamError('name_field')))
   })
 })

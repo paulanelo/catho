@@ -1,10 +1,12 @@
 import { type HttpRequest } from '../../domain/ports/inbound/http'
 import { type ValidatorPort } from '../../domain/ports/inbound/validator'
+import { type AddCandidateModel, type AddCandidate } from '../../domain/use-cases/add-candidate'
 import { BaseController } from './base-controller'
 
-export class AddCandidate extends BaseController {
+export class AddCandidateController extends BaseController {
   constructor (
-    private readonly requiredFieldValidator: ValidatorPort
+    private readonly requiredFieldValidator: ValidatorPort,
+    private readonly addCandidate: AddCandidate
   ) {
     super()
   }
@@ -15,6 +17,7 @@ export class AddCandidate extends BaseController {
   }
 
   async execute (input: HttpRequest): Promise<unknown> {
-    return await new Promise(resolve => { resolve({}) })
+    const candidate = await this.addCandidate.add(input.body as AddCandidateModel)
+    return candidate
   }
 }

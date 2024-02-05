@@ -42,4 +42,15 @@ describe('Add skill use case', () => {
     await sut.add(data.skills, data.candidateId)
     expect(findOrCreateSpy).toHaveBeenCalledWith(data.skills[0])
   })
+
+  test('should throw if skill repository throws', async () => {
+    const { sut, findOrCreateSkillRepositoryStub } = makeSut()
+    jest.spyOn(findOrCreateSkillRepositoryStub, 'findOrCreate').mockImplementationOnce(async () => await new Promise((resolve, reject) => { reject(new Error()) }))
+    const data = {
+      candidateId: 1,
+      skills: ['any_skill']
+    }
+    const promise = sut.add(data.skills, data.candidateId)
+    await expect(promise).rejects.toThrow()
+  })
 })

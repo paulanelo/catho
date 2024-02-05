@@ -1,4 +1,5 @@
 import { type Skill } from '../../domain/entities'
+import { type AddCandidateSkillRepositoryPort } from '../../domain/ports/outbound/database/repositories/add-candidate-skill-repository-port'
 import { type FindOrCreateSkillRepositoryPort } from '../../domain/ports/outbound/database/repositories/find-or-create-skill-repository-port'
 import { AddCandidateSkillUseCase } from './add-candidate-skill.use-case'
 
@@ -17,17 +18,30 @@ const makeFindOrCreateSkillRepository = (): FindOrCreateSkillRepositoryPort => {
   return new FindOrCreateSkillRepository()
 }
 
+const makeAddCandidateSkillRepository = (): AddCandidateSkillRepositoryPort => {
+  class AddCandidateSkillRepository implements AddCandidateSkillRepositoryPort {
+    async add (skillId: number, candidateId: number): Promise<void> {
+      await new Promise((resolve) => { resolve(null) })
+    }
+  }
+
+  return new AddCandidateSkillRepository()
+}
+
 interface SutTypes {
   sut: AddCandidateSkillUseCase
   findOrCreateSkillRepositoryStub: FindOrCreateSkillRepositoryPort
+  addCandidateSkillRepositoryStub: AddCandidateSkillRepositoryPort
 }
 
 const makeSut = (): SutTypes => {
   const findOrCreateSkillRepositoryStub = makeFindOrCreateSkillRepository()
-  const sut = new AddCandidateSkillUseCase(findOrCreateSkillRepositoryStub)
+  const addCandidateSkillRepositoryStub = makeAddCandidateSkillRepository()
+  const sut = new AddCandidateSkillUseCase(findOrCreateSkillRepositoryStub, addCandidateSkillRepositoryStub)
   return {
     sut,
-    findOrCreateSkillRepositoryStub
+    findOrCreateSkillRepositoryStub,
+    addCandidateSkillRepositoryStub
   }
 }
 
@@ -52,5 +66,16 @@ describe('Add skill use case', () => {
     }
     const promise = sut.add(data.skills, data.candidateId)
     await expect(promise).rejects.toThrow()
+  })
+
+  test('should call add candidate skill repository with the correct input', async () => {
+    const { sut, addCandidateSkillRepositoryStub } = makeSut()
+    const addSpy = jest.spyOn(addCandidateSkillRepositoryStub, 'add')
+    const data = {
+      candidateId: 1,
+      skills: ['any_skill']
+    }
+    await sut.add(data.skills, data.candidateId)
+    expect(addSpy).toHaveBeenCalledWith(1, data.candidateId)
   })
 })

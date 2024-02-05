@@ -8,7 +8,7 @@ const makeAddCandidateRepository = (): AddCandidateRepository => {
     async add (candidate: AddCandidateModel): Promise<Candidate> {
       return await new Promise((resolve) => {
         resolve({
-          id: 'valid_id',
+          id: 1,
           name: 'any_name',
           skills: []
         })
@@ -63,7 +63,7 @@ describe('Add Candidate Use case', () => {
     }
     const candidate = await sut.add(data)
     expect(candidate).toEqual({
-      id: 'valid_id',
+      id: 1,
       ...data
     })
   })

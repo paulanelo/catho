@@ -19,7 +19,7 @@ const makeAddCandidate = (): AddCandidate => {
     async add (candidate: AddCandidateModel): Promise<Candidate> {
       return await new Promise(resolve => {
         resolve({
-          id: 'any_id',
+          id: 1,
           name: 'any_name',
           skills: []
         })
@@ -116,7 +116,7 @@ describe('AddCandidate', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(ok({
-      id: 'any_id',
+      id: 1,
       name: 'any_name',
       skills: []
     }))

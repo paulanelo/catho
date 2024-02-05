@@ -1,5 +1,5 @@
 export interface Candidate {
-  id: string
+  id: number
   name: string
   skills?: string[]
 }

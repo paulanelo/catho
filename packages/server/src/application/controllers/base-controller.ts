@@ -1,7 +1,7 @@
 import { type Controller } from '../../domain/ports/inbound/controller'
 import { type HttpRequest, type HttpResponse } from '../../domain/ports/inbound/http'
-import { badRequest, ok, serverError } from '../../helpers/http.helper'
 import { MissingParamError } from '../errors'
+import { badRequest, ok, serverError } from '../helpers/http.helper'
 
 export abstract class BaseController implements Controller {
   protected abstract execute (input: unknown): unknown | Promise<unknown>

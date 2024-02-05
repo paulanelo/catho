@@ -1,6 +1,6 @@
-import { type Candidate } from '../../../../../domain/entities'
-import { type AddCandidateRepository } from '../../../../../domain/ports/outbound/database/repositories'
-import { type AddCandidateModel } from '../../../../../domain/use-cases/add-candidate'
+import { type Candidate } from '../../../../domain/entities'
+import { type AddCandidateRepository } from '../../../../domain/ports/outbound/database/repositories'
+import { type AddCandidateModel } from '../../../../domain/use-cases/add-candidate'
 import client from '../postgres-helper'
 
 export class AddCandidatePostgresRepository implements AddCandidateRepository {

@@ -1,5 +1,5 @@
-import { ServerError } from '../application/errors/server-error'
-import { type HttpResponse } from '../domain/ports/inbound'
+import { type HttpResponse } from '../../domain/ports/inbound'
+import { ServerError } from '../errors/server-error'
 
 export const badRequest = (error: Error): HttpResponse => {
   return {

@@ -7,7 +7,7 @@ describe('Add Candidate Repository', () => {
   })
 
   beforeEach(async () => {
-    await client.query('DELETE * FROM candidates')
+    await client.query('DELETE FROM candidates')
   })
 
   afterAll(async () => {
